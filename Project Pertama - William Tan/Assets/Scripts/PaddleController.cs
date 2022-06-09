@@ -6,31 +6,42 @@ public class PaddleController : MonoBehaviour
 {
     public int speed;
 
+    public KeyCode upKey;
+    public KeyCode downKey;
+
+    private Rigidbody2D rig;
+
     // Start is called before the first frame update
     void Start()
     {
 
+        rig = GetComponent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Vector3 movement = Vector3.zero;
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            movement = Vector3.up * speed;
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            movement = Vector3.down * speed;
-        }
-
-        //GetComponent<Transform>();
-        //Vector3 pos = transform.position;
-        //Transform.position = transform.position + (new Vector3(0.1f, 0, 0) * Time.deltaTime);
-        transform.Translate(movement * Time.deltaTime);
-
+        MoveObject(GetInput());
     }
+
+    private Vector2 GetInput()
+    {
+        if (Input.GetKey(upKey))
+        {
+            return Vector2.up * speed;
+        }
+
+        else if (Input.GetKey(downKey))
+        {
+            return Vector2.down * speed;
+        }
+        return Vector2.zero;
+    }
+
+    private void MoveObject(Vector2 movement)
+    {
+        rig.velocity = movement;
+    }
+
 }
